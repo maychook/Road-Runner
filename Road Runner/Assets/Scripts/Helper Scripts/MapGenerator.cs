@@ -131,7 +131,7 @@ public class MapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize();
     }
 
     void MakeInstance()
@@ -145,4 +145,65 @@ public class MapGenerator : MonoBehaviour
             Destroy(gameObject);
         }
     }        
-}
+
+    void Initialize()
+    {
+        /*
+         *  InitializePlatform ( prefab, reference of last position of the tile, the last position of tile,
+         *        the amount of road tiles, the road parent, the list of roads, the last order in layer of the road tile, 
+         *        new vector for the offset); 
+        */
+
+        // ROAD TILE
+        InitializePlatform(roadPrefab, ref last_Pos_Of_Road_Tile, roadPrefab.transform.position, 
+            start_Road_Tile, road_Holder, ref road_Tiles, ref last_Order_Of_Road, new Vector3(1.5f, 0f, 0f));
+
+
+    } // Initialize
+
+    // the reference variable will change the value of last_Pos also in the calling function
+    void InitializePlatform(GameObject prefab, ref Vector3 last_Pos, Vector3 last_Pos_Of_Tile,
+        int amountTile, GameObject holder, ref List<GameObject> list_Tile, ref int last_Order, Vector3 offset)
+    {
+        int orderInLayer = 0;
+        last_Pos = last_Pos_Of_Tile;
+
+        for (int i = 0; i < amountTile; i++)
+        {
+            // will create a game object - prefab will be in the last position and will have it's rotation
+            GameObject clone = Instantiate(prefab, last_Pos, prefab.transform.rotation) as GameObject;
+            clone.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
+
+
+            // maybe use switch case?
+            if (clone.tag == MyTags.TOP_NEAR_GRASS)
+            {
+
+            }
+            else if (clone.tag == MyTags.BOTTOM_NEAR_GRASS)
+            {
+
+            }
+            else if (clone.tag == MyTags.BOTTOM_FAR_LAND_2)
+            {
+
+            }
+            else if (clone.tag == MyTags.TOP_FAR_GRASS)
+            {
+
+            }
+
+            clone.transform.SetParent(holder.transform); // setting clone to be holder's child
+            list_Tile.Add(clone);
+
+            // increase the order in layer so the objects will be rendered on top of each other
+            orderInLayer++; 
+            last_Order = orderInLayer;
+
+            // increasing the last position so the tiles will be renderd right next ot each other
+            last_Pos += offset; 
+        }
+
+    } // InitialisePlatform
+
+} // class
