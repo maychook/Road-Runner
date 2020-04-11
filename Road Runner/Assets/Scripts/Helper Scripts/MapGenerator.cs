@@ -174,7 +174,7 @@ public class MapGenerator : MonoBehaviour
             new Vector3(2.0f, grass_Bottom_Prefab.transform.position.y, 0f), start_Grass_Tile, bottom_Near_Side_Walk_Holder,
             ref bottom_Near_Grass_Tiles, ref last_Order_Of_Bottom_Near_Grass, new Vector3(1.2f, 0f, 0f));
 
-
+        InitializeBottomFarLand();
 
     } // Initialize
 
@@ -330,5 +330,33 @@ public class MapGenerator : MonoBehaviour
             }
         }
     } // SetNearScene
+
+    void InitializeBottomFarLand()
+    {
+        // land 1 tile
+        InitializePlatform(land_Prefab_1, ref last_Pos_Of_Bottom_Far_Land_F1, land_Prefab_1.transform.position,
+            start_Land_Tile, bottom_Far_Side_Walk_Holder, ref bottom_Far_Land_F1_Tiles, ref last_Order_Of_Bottom_Far_Land_F1,
+            new Vector3(1.6f, 0f, 0f));
+
+        // land 2 tile
+        InitializePlatform(land_Prefab_2, ref last_Pos_Of_Bottom_Far_Land_F2, land_Prefab_2.transform.position,
+            start_Land_Tile - 3, bottom_Far_Side_Walk_Holder, ref bottom_Far_Land_F2_Tiles, ref last_Order_Of_Bottom_Far_Land_F2,
+            new Vector3(1.6f, 0f, 0f));
+
+        // land 3 tile
+        InitializePlatform(land_Prefab_3, ref last_Pos_Of_Bottom_Far_Land_F3, land_Prefab_3.transform.position,
+            start_Land_Tile - 4, bottom_Far_Side_Walk_Holder, ref bottom_Far_Land_F3_Tiles, ref last_Order_Of_Bottom_Far_Land_F3,
+            new Vector3(1.6f, 0f, 0f));
+
+        // land 4 tile
+        InitializePlatform(land_Prefab_4, ref last_Pos_Of_Bottom_Far_Land_F4, land_Prefab_4.transform.position,
+            start_Land_Tile - 7, bottom_Far_Side_Walk_Holder, ref bottom_Far_Land_F4_Tiles, ref last_Order_Of_Bottom_Far_Land_F4,
+            new Vector3(1.6f, 0f, 0f));
+
+        // land 5 tile
+        InitializePlatform(land_Prefab_5, ref last_Pos_Of_Bottom_Far_Land_F5, land_Prefab_5.transform.position,
+            start_Land_Tile - 10, bottom_Far_Side_Walk_Holder, ref bottom_Far_Land_F5_Tiles, ref last_Order_Of_Bottom_Far_Land_F5,
+            new Vector3(1.6f, 0f, 0f));
+    }
 
 } // class
