@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4372998460990761945}
   - component: {fileID: 4372998460990761942}
+  - component: {fileID: 6871858501740998129}
   m_Layer: 0
   m_Name: land 1
   m_TagString: BottomFarLand1
@@ -79,3 +80,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6871858501740998129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4372998460990761943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820c4f7d7e5dbbe47bbf38e49999f07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Helper Scripts\GameplayController.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\MyTags.cs" />
+    <Compile Include="Assets\Scripts\Helper Scripts\OffScreen.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/maypo/OneDrive/מסמכים/Unity/Unity Course/Road-Runner/Road Runner/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
