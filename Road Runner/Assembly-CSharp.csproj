@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Helper Scripts\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\MyTags.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\OffScreen.cs" />
+    <Compile Include="Assets\Scripts\Obstacle Scripts\ObstacleHolder.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\AniimationEvents.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\PlayerController.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
