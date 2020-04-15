@@ -13,6 +13,15 @@ public class GameplayController : MonoBehaviour
     private float distance_Move;
     private bool gameJustStarted; // the default is false
 
+    public GameObject obstacle_Obj;
+    public GameObject[] obstacle_List;
+
+    [HideInInspector]
+    public bool obstacle_Is_Active;
+
+    private string Coroutine_Name = "SpawnObstacles";
+
+
     void Awake()
     {
         MakeInstance();
@@ -22,6 +31,9 @@ public class GameplayController : MonoBehaviour
     void Start()
     {
         gameJustStarted = true;
+
+        GetObstacles();
+        StartCoroutine(Coroutine_Name);
     }
 
     // Update is called once per frame
@@ -87,5 +99,46 @@ public class GameplayController : MonoBehaviour
             moveSpeed = 16f;
         }
     }
+
+    void GetObstacles()
+    {
+        obstacle_List = new GameObject[obstacle_Obj.transform.childCount];
+
+        for (int i = 0; i < obstacle_List.Length; i++)
+        {
+            // it will get the game objects that has the obstacleHolder even if the object is enable
+            obstacle_List[i] = obstacle_Obj.GetComponentsInChildren<ObstacleHolder>(true)[i].gameObject;
+        }
+    }
+
+    IEnumerator SpawnObstacles()
+    {
+        while(true)
+        {
+            if (!PlayerController.instance.player_Died)
+            {
+                if (!obstacle_Is_Active)
+                {
+                    if (Random.value <= 0.85f) // 85% chance to create an obstacle
+                    {
+                        int randomIndex = 0;
+
+                        do
+                        {
+                            randomIndex = Random.Range(0, obstacle_List.Length);
+                        }
+                        while (obstacle_List[randomIndex].activeInHierarchy);
+
+                        obstacle_List[randomIndex].SetActive(true);
+                        obstacle_Is_Active = true;
+                    }
+                }
+            }
+
+            // the game will not crush beacause the loop will be called every 0.6 seconds
+            yield return new WaitForSeconds(0.6f); 
+        }
+    }
+
     
 }

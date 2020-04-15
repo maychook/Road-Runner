@@ -20,11 +20,25 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool player_Jumped;
 
+    public GameObject explosion;
+
+    private SpriteRenderer player_Renderer;
+    public Sprite TRex_Sprite, player_Sprite;
+
+    private bool TRex_Trigger;
+
+    private GameObject[] star_Effect;
+
     void Awake()
     {
         MakeInstance();
 
         anim = player.GetComponent<Animator>();
+
+        player_Renderer = player.GetComponent<SpriteRenderer>();
+
+        // get all the game objects with star effects tag
+        star_Effect = GameObject.FindGameObjectsWithTag(MyTags.STAR_EFFECT); 
     }
 
     // Start is called before the first frame update
@@ -83,5 +97,98 @@ public class PlayerController : MonoBehaviour
             // TODO: PLAY SOUND
         }
     }
+
+    void Die()
+    {
+        player_Died = true;
+        player.SetActive(false);
+        shadow.SetActive(false);
+
+        GameplayController.instance.moveSpeed = 0f;
+        // TODO: GameplayController.instance.GameOver();
+
+        // TODO: PLAY SOUND PLAYER DEAD
+        // TODO: PLAY SOUND GAME OVER
+    }
+
+    void DieWithObstacle(Collider2D target)
+    {
+        Die();
+
+        // position the explosion to be where the obstcle is
+        explosion.transform.position = target.transform.position;
+        explosion.SetActive(true);
+        target.gameObject.SetActive(false);
+
+        // SOUND MANAGER PLAY PLAYER DEAD SOUND
+    }
+
+    IEnumerator TRexDuration()
+    {
+        
+        yield return new WaitForSeconds(7f);
+
+        if (TRex_Trigger)
+        {
+            TRex_Trigger = false;
+
+            player_Renderer.sprite = player_Sprite;
+        }
+    }
+
+    void DestroyObstacle(Collider2D target)
+    {
+        explosion.transform.position = target.transform.position;
+        explosion.SetActive(false); // turn off the explosion if its already turned on
+        explosion.SetActive(true);
+
+        target.gameObject.SetActive(false);
+
+        // TODO: SOUND MANAGER PLAY DEAD SOUND
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if (target.tag == MyTags.OBSTACLE)
+        {
+            if (!TRex_Trigger)
+            {
+                DieWithObstacle(target);
+            }
+            else
+            {
+                DestroyObstacle(target);
+            }
+        }
+        else if (target.tag == MyTags.STAR)
+        {
+            for (int i = 0; i < star_Effect.Length; i++)
+            {
+                if (!star_Effect[i].activeInHierarchy)
+                {
+                    // position the effect where the star is
+                    star_Effect[i].transform.position = target.transform.position; 
+                    star_Effect[i].SetActive(true);
+                    break;
+                }
+            }
+
+            target.gameObject.SetActive(false);
+            // TODO: SOUND MANAGER PLAY SOUND
+            // TODO: GAMEPLAY CONTROLLER INCREASE STAR SCORE
+        }
+        else if (target.tag == MyTags.T_REX)
+        {
+            TRex_Trigger = true;
+            player_Renderer.sprite = TRex_Sprite;
+            target.gameObject.SetActive(false);
+
+            // TODO: SOUND MANAGER TO PLAY THE MUSIC
+
+            StartCoroutine(TRexDuration());
+        }
+    }
+
+   
 
 } // class
