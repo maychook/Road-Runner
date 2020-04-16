@@ -73,14 +73,14 @@ public class PlayerController : MonoBehaviour
             anim.Play(change_Line_Animation);
             transform.localPosition = second_PosOfPlayer;
 
-            // TODO: PLAY SOUND
+            SoundManager.instance.PlayMoveLineSound();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             anim.Play(change_Line_Animation);
             transform.localPosition = first_PosOfPlayer;
 
-            // TODO: PLAY SOUND
+            SoundManager.instance.PlayMoveLineSound();
         }
     }
 
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
                 player_Jumped = true;
             }
 
-            // TODO: PLAY SOUND
+            SoundManager.instance.PlayJumpSound();
         }
     }
 
@@ -107,8 +107,8 @@ public class PlayerController : MonoBehaviour
         GameplayController.instance.moveSpeed = 0f;
         // TODO: GameplayController.instance.GameOver();
 
-        // TODO: PLAY SOUND PLAYER DEAD
-        // TODO: PLAY SOUND GAME OVER
+        SoundManager.instance.PlayDeadSound();
+        SoundManager.instance.PlayGameOverClip(); 
     }
 
     void DieWithObstacle(Collider2D target)
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
         explosion.SetActive(true);
         target.gameObject.SetActive(false);
 
-        // SOUND MANAGER PLAY PLAYER DEAD SOUND
+        SoundManager.instance.PlayDeadSound();
     }
 
     IEnumerator TRexDuration()
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
         target.gameObject.SetActive(false);
 
-        // TODO: SOUND MANAGER PLAY DEAD SOUND
+        SoundManager.instance.PlayDeadSound();
     }
 
     void OnTriggerEnter2D(Collider2D target)
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
             }
 
             target.gameObject.SetActive(false);
-            // TODO: SOUND MANAGER PLAY SOUND
+            SoundManager.instance.PlayCoinSound();
             // TODO: GAMEPLAY CONTROLLER INCREASE STAR SCORE
         }
         else if (target.tag == MyTags.T_REX)
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
             player_Renderer.sprite = TRex_Sprite;
             target.gameObject.SetActive(false);
 
-            // TODO: SOUND MANAGER TO PLAY THE MUSIC
+            SoundManager.instance.PlayPowerUpSound();
 
             StartCoroutine(TRexDuration());
         }
