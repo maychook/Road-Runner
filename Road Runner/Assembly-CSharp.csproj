@@ -60,7 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Helper Scripts\CharacterSelectScript.cs" />
+    <Compile Include="Assets\Scripts\Helper Scripts\GameData.cs" />
+    <Compile Include="Assets\Scripts\Helper Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\GameplayController.cs" />
+    <Compile Include="Assets\Scripts\Helper Scripts\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\MyTags.cs" />
     <Compile Include="Assets\Scripts\Helper Scripts\OffScreen.cs" />
