@@ -44,7 +44,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        string path = "Sprites/Player/hero" + GameManager.instance.selected_Index + "_big";
+        player_Sprite = Resources.Load<Sprite>(path);
+        player_Renderer.sprite = player_Sprite;
     }
 
     // Update is called once per frame
@@ -105,7 +107,7 @@ public class PlayerController : MonoBehaviour
         shadow.SetActive(false);
 
         GameplayController.instance.moveSpeed = 0f;
-        // TODO: GameplayController.instance.GameOver();
+        GameplayController.instance.GameOver();
 
         SoundManager.instance.PlayDeadSound();
         SoundManager.instance.PlayGameOverClip(); 
@@ -175,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
             target.gameObject.SetActive(false);
             SoundManager.instance.PlayCoinSound();
-            // TODO: GAMEPLAY CONTROLLER INCREASE STAR SCORE
+            GameplayController.instance.UpdateStarScore();
         }
         else if (target.tag == MyTags.T_REX)
         {
@@ -188,7 +190,5 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(TRexDuration());
         }
     }
-
-   
-
+    
 } // class

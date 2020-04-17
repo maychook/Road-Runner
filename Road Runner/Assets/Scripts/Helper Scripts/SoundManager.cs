@@ -28,6 +28,14 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         // TEST IF WE SHOULD PLAY BG SOUND
+        if (GameManager.instance.play_Sound)
+        {
+            background_Audio_Source.Play();
+        }
+        else
+        {
+            background_Audio_Source.Stop();
+        }
     }
 
     // Update is called once per frame

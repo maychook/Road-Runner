@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameplayController : MonoBehaviour
 {
@@ -21,10 +23,23 @@ public class GameplayController : MonoBehaviour
 
     private string Coroutine_Name = "SpawnObstacles";
 
+    private Text score_Text, star_Score_Text;
+    private int star_Score_Count, score_Count;
+
+    public GameObject pausePanel;
+    public Animator pause_Anim;
+
+    public GameObject gameOver_Panel;
+    public Animator gameOver_Anim;
+
+    public Text final_Score_Text, best_Score_Text, final_Star_Score_Text;
 
     void Awake()
     {
         MakeInstance();
+
+        score_Text = GameObject.Find("ScoreText").GetComponent<Text>();
+        star_Score_Text = GameObject.Find("StarText").GetComponent<Text>();
     }
 
     // Start is called before the first frame update
@@ -44,11 +59,11 @@ public class GameplayController : MonoBehaviour
 
     void MakeInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
-        else if (instance!= null)
+        else if (instance != null)
         {
             Destroy(gameObject);
         }
@@ -79,7 +94,7 @@ public class GameplayController : MonoBehaviour
         {
             Camera.main.transform.position += new Vector3(moveSpeed * Time.deltaTime, 0f, 0f);
             UpdateDistance();
-        }        
+        }
     }
 
     // use it to calculate score
@@ -88,13 +103,14 @@ public class GameplayController : MonoBehaviour
         distance_Move += Time.deltaTime * distance_Factor;
         float round = Mathf.Round(distance_Move); // the value will be rounded up to the nearest integer
 
-        // TODO: COUNT AND SHOW THE SCORE
+        score_Count = (int)round; // save the score when the player dies
+        score_Text.text = score_Count.ToString();
 
         if (round >= 30.0f && round < 60.0f)
         {
             moveSpeed = 14f;
         }
-        else if(round >= 60f)
+        else if (round >= 60f)
         {
             moveSpeed = 16f;
         }
@@ -113,7 +129,7 @@ public class GameplayController : MonoBehaviour
 
     IEnumerator SpawnObstacles()
     {
-        while(true)
+        while (true)
         {
             if (!PlayerController.instance.player_Died)
             {
@@ -136,9 +152,62 @@ public class GameplayController : MonoBehaviour
             }
 
             // the game will not crush beacause the loop will be called every 0.6 seconds
-            yield return new WaitForSeconds(0.6f); 
+            yield return new WaitForSeconds(0.6f);
         }
     }
 
-    
+    public void UpdateStarScore()
+    {
+        star_Score_Count++;
+        star_Score_Text.text = star_Score_Count.ToString();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+
+        pausePanel.SetActive(true);
+        pause_Anim.Play("SlideIn");
+    }
+
+    public void ResumeGame()
+    {
+        pause_Anim.Play("SlideOut");
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        // reload the current active scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+    }
+
+    public void HomeButton()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        gameOver_Panel.SetActive(true);
+        gameOver_Anim.Play("SlideIn");
+
+        final_Score_Text.text = score_Count.ToString();
+        final_Star_Score_Text.text = star_Score_Count.ToString();
+
+        // check if there is a new high score
+        if (GameManager.instance.score_Count < score_Count)
+        {
+            GameManager.instance.score_Count = score_Count;
+        }
+
+        best_Score_Text.text = GameManager.instance.score_Count.ToString();
+
+        // add the current star score to the total star score
+        GameManager.instance.star_Score += star_Score_Count;
+
+        GameManager.instance.SaveGameData(); // save game data
+    }
 }
